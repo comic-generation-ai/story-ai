@@ -5,7 +5,7 @@ services:
     build: .
     container_name: story-ai
     ports:
-      - "${GRPC_PORT:-50052}:${GRPC_PORT:-50052}"
+      - "${PORT:-50052}:${PORT:-50052}"
     volumes:
       - ./src:/app/src
     env_file:

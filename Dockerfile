@@ -5,15 +5,10 @@ WORKDIR /app
 COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 
-COPY proto/ proto/
-COPY scripts/ scripts/
 COPY src/ src/
 
-# Compile proto stubs inside the image
-RUN python scripts/generate_proto.py
-
-ARG GRPC_PORT=50052
-ENV GRPC_PORT=${GRPC_PORT}
-EXPOSE ${GRPC_PORT}
+ARG PORT=50052
+ENV PORT=${PORT}
+EXPOSE ${PORT}
 
 CMD ["python", "src/server.py"]
