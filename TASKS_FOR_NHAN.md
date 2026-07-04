@@ -68,26 +68,6 @@ areca palm tree, golden hour, melancholic mood, wide shot"
 
 ---
 
-## 2. Khớp schema JSON với contract (`story_generation.proto`)
-
-Output hiện tại (`test_result.json`) dùng field: `panel_number`, `image_prompt`, `speaker`,
-`dialogue`, `panel_type`. Nhưng contract đã "đóng băng" giữa 2 người yêu cầu tên field khác —
-orchestrator-ai sẽ đọc theo đúng tên trong contract, không tự map được nếu lệch tên.
-
-| Contract yêu cầu (`story_generation.proto`) | story-ai hiện có | Việc cần làm |
-|---|---|---|
-| `index` (đánh số từ 0) | `panel_number` (đánh số từ 1) | Đổi tên field + trừ 1 |
-| `prompt_en` | `image_prompt` | Đổi tên field |
-| `caption_vi` | `dialogue` | Đổi tên field |
-| `scene_description` | *(chưa có)* | Thêm field mới, dùng cho debug/log |
-| `character_ids: []` | *(chưa có)* | Thêm field mới — chuẩn bị cho nhất quán nhân vật sau này |
-| `characters: map<string, CharacterProfile>` (character bible, ở response gốc) | *(chưa có)* | Thêm — mỗi nhân vật có `character_id`, `name`, `description_en`, `appearance_tags` cố định xuyên suốt truyện |
-
-Việc này nên bàn trực tiếp giữa 2 người vì liên quan quyết định REST/FastAPI đã thống nhất
-trước đó — có thể làm luôn lúc viết OpenAPI spec mới cho story-ai (thay vì `.proto` gRPC cũ).
-
----
-
 ## Ghi chú thêm
 
 - `readme.md` hiện tại của story-ai mô tả kiến trúc **gRPC + Alibaba DashScope/Qwen** — đã
