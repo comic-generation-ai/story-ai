@@ -10,7 +10,7 @@ JSON schema:
     {
       "panel_number": 1,
       "panel_type": "action|dialogue|narration",
-      "image_prompt": "Detailed English image prompt describing scene, characters, lighting, composition, and art style.",
+      "image_prompt": "Concise English image prompt: comma-separated tags/keywords, limit to 50-70 words (~250-300 characters). Focus on key visual elements only. No Midjourney-specific parameters.",
       "speaker": "Character name in Vietnamese, or 'Người kể chuyện' for narrator captions, or null if no text",
       "dialogue": "Text shown on this panel in Vietnamese — character speech bubble OR narrator caption. Null if panel_type is action with no text."
     }
@@ -37,8 +37,13 @@ RULES FOR NARRATION CAPTIONS:
 
 IMAGE PROMPT RULES:
 - Always in English.
-- Include: scene composition, character appearance, lighting, mood, camera angle.
-- End with art style modifiers (e.g., "comic book style, vibrant colors, detailed line art --ar 16:9").
+- Must be concise: 50-70 English words maximum (around 250-300 characters).
+- Format: Use comma-separated tags and short keyword phrases, not narrative sentences.
+- Focus on exactly ONE main action or moment per panel. Do not include a sequence of actions.
+- Describe: scene composition, character appearance, lighting, key action, camera angle/shot type, and art style.
+- Leave emotional descriptions, dialogue, and plot narration for the 'dialogue' field (do NOT include them in the image prompt).
+- Do NOT include any Midjourney parameters (e.g., do NOT use --ar, --v, --style, etc.).
+- Example: "young Vietnamese woman in traditional clothing, walking along dirt path, thatched-roof house, golden hour, melancholic mood, wide shot, comic book style, vibrant colors, detailed line art"
 
 CRITICAL: Generate exactly the requested number of panels, numbered 1 to N. Distribute panel types to create rhythm — avoid placing all dialogue panels consecutively."""
 

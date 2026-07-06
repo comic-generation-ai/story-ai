@@ -122,6 +122,46 @@ FOLKLORE_DATABASE = {
   + Lời thoại trang nghiêm, yêu nước, mang tính hào hùng dân tộc.
   + Thanh gươm thần nạm ngọc sáng chói, biểu tượng của sự đồng lòng toàn dân tộc và thiên mệnh.
 """
+    },
+    "rua_va_tho": {
+        "canonical_title": "Rùa và Thỏ",
+        "keywords": ["rua va tho", "rua va tho chay dua", "tho kiêu ngao", "rua kien tri"],
+        "context": """
+- Bối cảnh: Khu rừng xanh yên bình.
+- Nhân vật chính:
+  + Thỏ: Nhanh nhẹn, tự phụ, kiêu ngạo, coi thường người khác.
+  + Rùa: Chậm chạp nhưng kiên trì, chăm chỉ, không nản lòng trước khó khăn.
+- Cốt truyện:
+  1. Thỏ mỉa mai, chê bai Rùa chậm chạp. Rùa thách Thỏ chạy đua với mình.
+  2. Thỏ đồng ý ngay vì tự tin vào tốc độ vượt trội. Khi bắt đầu cuộc đua, Thỏ nhanh chóng bỏ xa Rùa.
+  3. Nghĩ rằng chiến thắng quá dễ dàng, Thỏ dừng lại nhởn nhơ chơi đùa và nằm ngủ dưới một gốc cây.
+  4. Trong khi Thỏ ngủ say, Rùa vẫn kiên trì từng bước một, không ngừng nghỉ, vượt qua Thỏ và tiến về đích.
+  5. Thỏ giật mình tỉnh giấc thì Rùa đã gần chạm vạch đích. Thỏ cố sức chạy nhưng không kịp nữa. Rùa giành chiến thắng.
+- Lời thoại và tạo ảnh:
+  + Giọng Thỏ kiêu căng, chế giễu. Giọng Rùa điềm đạm, khiêm tốn nhưng quyết tâm.
+  + Hình ảnh minh họa: Rùa miệt mài bò từng bước, Thỏ nằm ngủ lười biếng dưới bóng cây cổ thụ, vạch đích náo nhiệt với sự cổ vũ của muông thú.
+"""
+    },
+    "cay_tre_tram_dot": {
+        "canonical_title": "Cây Tre Trăm Đốt",
+        "keywords": ["cay tre tram dot", "khoai", "khac nhap khac xuat", "lao dia chu"],
+        "context": """
+- Bối cảnh: Làng quê Việt Nam xưa.
+- Nhân vật chính:
+  + Khoai: Chàng trai cày hiền lành, khỏe mạnh, chất phác, chăm chỉ chịu khó.
+  + Lão địa chủ (Phú ông): Tham lam, xảo quyệt, nuốt lời hứa gả con gái cho Khoai để bóc lột sức lao động của anh.
+  + Bụt: Hiện lên giúp đỡ chàng Khoai lúc khó khăn, ban cho câu thần chú.
+- Cốt truyện truyền thống:
+  1. Lão địa chủ hứa gả con gái cho Khoai nếu anh làm lụng chăm chỉ trong ba năm.
+  2. Sau ba năm, lão địa chủ trở mặt, lừa Khoai đi tìm "cây tre trăm đốt" trên rừng mang về thì mới gả con gái, mục đích để gả con cho một nhà giàu khác.
+  3. Khoai vào rừng tìm kiếm vô vọng và khóc. Bụt hiện lên, bảo anh chặt đủ một trăm đốt tre riêng lẻ, rồi dạy câu thần chú "Khắc nhập, khắc nhập" để gắn chúng lại thành một cây tre dài trăm đốt, và câu "Khắc xuất, khắc xuất" để tách rời ra như cũ để dễ gánh về.
+  4. Về đến nhà, thấy đám cưới đang chuẩn bị cho người khác, Khoai liền đọc câu thần chú "Khắc nhập, khắc nhập" khiến lão địa chủ và những kẻ đồng lõa bị dính chặt vào cây tre.
+  5. Lão địa chủ xin tha và hứa thực hiện lời hứa. Khoai đọc "Khắc xuất, khắc xuất" để giải thoát cho họ, rồi cưới con gái phú ông.
+- Lời thoại và tạo ảnh:
+  + Lời thoại phú ông lươn lẹo, ngọt nhạt lúc cần bóc lột nhưng ác độc sau lưng. Khoai thật thà, chất phác.
+  + Câu thần chú thần kỳ "Khắc nhập, khắc nhập" và "Khắc xuất, khắc xuất" phải xuất hiện rõ ràng.
+  + Hình ảnh lũy tre làng xanh mướt, đốt tre xếp chồng lấp lánh phép thuật.
+"""
     }
 }
 

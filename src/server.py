@@ -83,12 +83,12 @@ class HealthResponse(BaseModel):
 
 # --- Mock Data for Fallback ---
 _MOCK_PANELS = [
-    ("Người kể chuyện", "The story begins in a vibrant, colorful setting. Comic book style, detailed line art --ar 16:9"),
-    ("Nhân vật chính",  "The main character stands determined, facing a challenge ahead. Dynamic pose, comic book style --ar 16:9"),
-    ("Người kể chuyện", "A sudden conflict arises, creating tension in the scene. Dramatic lighting, comic book style --ar 16:9"),
-    ("Nhân vật chính",  "The hero overcomes the obstacle with courage. Triumphant moment, vibrant colors, comic book style --ar 16:9"),
-    ("Người kể chuyện", "The journey continues into the unknown. Wide establishing shot, comic book style --ar 16:9"),
-    ("Nhân vật chính",  "A new discovery changes everything. Close-up reaction shot, comic book style --ar 16:9"),
+    ("Người kể chuyện", "story starting in vibrant setting, comic book style, detailed line art"),
+    ("Nhân vật chính",  "protagonist standing determined, facing challenge, dynamic pose, comic book style"),
+    ("Người kể chuyện", "sudden conflict, dramatic lighting, comic book style"),
+    ("Nhân vật chính",  "hero overcoming obstacle, triumphant moment, vibrant colors, comic book style"),
+    ("Người kể chuyện", "journey continuing into the unknown, wide establishing shot, comic book style"),
+    ("Nhân vật chính",  "new discovery, close-up reaction shot, comic book style"),
 ]
 
 def _get_mock_fallback(request: GenerateStoryRequest, error_msg: str) -> GenerateStoryResponse:
