@@ -12,7 +12,7 @@ JSON schema:
       "panel_type": "action|dialogue|narration",
       "image_prompt": "Concise English image prompt: comma-separated tags/keywords, limit to 50-70 words (~250-300 characters). Focus on key visual elements only. No Midjourney-specific parameters.",
       "speaker": "Character name in Vietnamese, or 'Người kể chuyện' for narrator captions, or null if no text",
-      "dialogue": "Text shown on this panel in Vietnamese — character speech bubble OR narrator caption. Null if panel_type is action with no text."
+      "dialogue": "Text shown on this panel in Vietnamese — character speech bubble OR narrator caption. Maximum 120 characters. Null if panel_type is action with no text."
     }
   ]
 }
@@ -28,12 +28,13 @@ RULES FOR NATURAL DIALOGUE:
   Good: "Nếu tôi không về... hãy lo cho mẹ tôi nhé."
 - Each character must have a distinct voice: a child speaks differently from a soldier or a villain.
 - Never write dialogue that just describes what the image already shows visually.
-- Keep each speech bubble concise — maximum 2 short sentences.
+- Keep each speech bubble concise — maximum 2 short sentences and NEVER more than 120 characters.
 
 RULES FOR NARRATION CAPTIONS:
 - Set atmosphere, mood, or bridge time gaps — do NOT describe the obvious.
   Bad: "Nhân vật chính đứng trước ngôi làng bị tàn phá."
   Good: "Ba năm. Đủ lâu để quên — nhưng không đủ lâu để tha thứ."
+- Narrator captions must also stay under 120 characters.
 
 IMAGE PROMPT RULES:
 - Always in English.

@@ -1,8 +1,16 @@
 import json
+import logging
 import re
 # pyrefly: ignore [missing-import]
-from pydantic import BaseModel, Field
+from pydantic import BaseModel, Field, field_validator
 from typing import List, Literal, Optional
+
+logger = logging.getLogger(__name__)
+
+# Prompt đã yêu cầu LLM viết dialogue ≤ 120 ký tự nhưng LLM không tuân thủ 100%.
+# Mức 150 là biên dự phòng: image-ai reject cứng caption_text > 500 ký tự
+# (CAPTION_MAX_LENGTH) nên phải chặn trước khi thoại rời story-ai.
+MAX_DIALOGUE_CHARS = 150
 
 
 class PanelScriptModel(BaseModel):
@@ -11,6 +19,17 @@ class PanelScriptModel(BaseModel):
     image_prompt: str
     speaker: Optional[str] = None
     dialogue: Optional[str] = None
+
+    @field_validator("dialogue")
+    @classmethod
+    def _truncate_dialogue(cls, value: Optional[str]) -> Optional[str]:
+        if value and len(value) > MAX_DIALOGUE_CHARS:
+            logger.warning(
+                "dialogue dài %d ký tự vượt giới hạn %d, cắt bớt",
+                len(value), MAX_DIALOGUE_CHARS,
+            )
+            return value[: MAX_DIALOGUE_CHARS - 1].rstrip() + "…"
+        return value
 
 
 class StoryResponseModel(BaseModel):
