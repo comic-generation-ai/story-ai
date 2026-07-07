@@ -146,14 +146,19 @@ def generate_story_endpoint(request: GenerateStoryRequest):
     )
 
 
+    primary_model = Config.MODEL_NAME
+    fallback_model = "qwen3.7-max-2026-06-08"
+    model_to_use = primary_model
+
     max_retries = 3
-    for attempt in range(1, max_retries + 1):
+    attempt = 1
+    while attempt <= max_retries:
         try:
-            print(f"  Calling OpenRouter API ({Config.MODEL_NAME}), attempt {attempt}/{max_retries}...")
+            print(f"  Calling OpenRouter API ({model_to_use}), attempt {attempt}/{max_retries}...")
             start_time = time.time()
 
             completion = openai_client.chat.completions.create(
-                model=Config.MODEL_NAME,
+                model=model_to_use,
                 messages=[
                     {"role": "system", "content": system_prompt},
                     {"role": "user", "content": user_prompt}
@@ -197,22 +202,36 @@ def generate_story_endpoint(request: GenerateStoryRequest):
                 story_title=parsed_data.get("story_title", f"Câu chuyện {request.job_id[:8]}")
             )
 
-        except openai.RateLimitError as e:
+        except (openai.RateLimitError, openai.APIError) as e:
+            if model_to_use == primary_model and primary_model != fallback_model:
+                print(f"  Primary model ({primary_model}) failed with API/Rate Limit error: {e}")
+                print(f"  Switching to fallback model: {fallback_model}")
+                model_to_use = fallback_model
+                continue
+
             # Extract retry-after from error metadata if available
             wait = 30
-            try:
-                meta = e.body.get("error", {}).get("metadata", {})
-                wait = int(meta.get("retry_after_seconds", 30)) + 2
-            except Exception:
-                pass
+            if isinstance(e, openai.RateLimitError):
+                try:
+                    meta = e.body.get("error", {}).get("metadata", {})
+                    wait = int(meta.get("retry_after_seconds", 30)) + 2
+                except Exception:
+                    pass
             if attempt < max_retries:
-                print(f"  Rate limited (429). Waiting {wait}s before retry...")
+                print(f"  Rate limited (429) or API error. Waiting {wait}s before retry...")
                 time.sleep(wait)
+                attempt += 1
             else:
                 print(f"  ERROR detail:\n{traceback.format_exc()}")
-                return _get_mock_fallback(request, f"Rate limited after {max_retries} attempts: {e}")
+                return _get_mock_fallback(request, f"Rate limited / API error after {max_retries} attempts: {e}")
 
         except Exception as e:
+            if model_to_use == primary_model and primary_model != fallback_model:
+                print(f"  Primary model ({primary_model}) failed with parse/validation error: {e}")
+                print(f"  Switching to fallback model: {fallback_model}")
+                model_to_use = fallback_model
+                continue
+
             print(f"  ERROR detail:\n{traceback.format_exc()}")
             return _get_mock_fallback(request, f"LLM/parse error: {e}")
 
