@@ -75,6 +75,9 @@ class GenerateStoryResponse(BaseModel):
     job_id: str
     story_title: str
     panels: List[PanelScript]
+    # True khi kết quả là mock fallback (LLM lỗi / thiếu API key) — orchestrator
+    # dựa vào cờ này để quyết định fail sớm thay vì đốt GPU sinh ảnh từ prompt mock.
+    is_fallback: bool = False
 
 class HealthResponse(BaseModel):
     is_alive: bool
@@ -96,6 +99,9 @@ def _get_mock_fallback(request: GenerateStoryRequest, error_msg: str) -> Generat
 
     num_panels = request.num_panels if request.num_panels and request.num_panels > 0 else 4
     summary_clean = request.summary.strip() or "Cuộc phiêu lưu kì thú"
+    # Cắt ngắn summary trong lời thoại — image-ai giới hạn caption_text 500 ký tự,
+    # summary dài nguyên văn sẽ làm GenerateImageRequest bị INVALID_ARGUMENT.
+    summary_short = summary_clean[:150].rstrip() + ("..." if len(summary_clean) > 150 else "")
 
     panels = []
     for i in range(num_panels):
@@ -105,13 +111,14 @@ def _get_mock_fallback(request: GenerateStoryRequest, error_msg: str) -> Generat
             panel_type="narration" if speaker == "Người kể chuyện" else "dialogue",
             image_prompt=img_prompt,
             speaker=speaker,
-            dialogue=f"[Khung {i+1}] {summary_clean}.",
+            dialogue=f"[Khung {i+1}] {summary_short}",
         ))
 
     return GenerateStoryResponse(
         job_id=request.job_id,
         panels=panels,
-        story_title=f"Hành trình {summary_clean[:30]} (Fallback)"
+        story_title=f"Hành trình {summary_clean[:30]} (Fallback)",
+        is_fallback=True,
     )
 
 # --- Routes ---
@@ -210,13 +217,17 @@ def generate_story_endpoint(request: GenerateStoryRequest):
                 continue
 
             # Extract retry-after from error metadata if available
-            wait = 30
+            wait = 15
             if isinstance(e, openai.RateLimitError):
                 try:
                     meta = e.body.get("error", {}).get("metadata", {})
-                    wait = int(meta.get("retry_after_seconds", 30)) + 2
+                    wait = int(meta.get("retry_after_seconds", 15)) + 2
                 except Exception:
                     pass
+            # Chặn trần thời gian chờ: tổng (LLM latency + wait) x 3 attempts phải
+            # nằm dưới STORY_AI_TIMEOUT_SEC của orchestrator, nếu không orchestrator
+            # sẽ ReadTimeout và fail job trong khi story-ai vẫn đang retry.
+            wait = min(wait, 20)
             if attempt < max_retries:
                 print(f"  Rate limited (429) or API error. Waiting {wait}s before retry...")
                 time.sleep(wait)
