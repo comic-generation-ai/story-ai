@@ -56,7 +56,7 @@ def parse_llm_json(raw_text: str) -> dict:
     result = validated.model_dump()
 
     # LLM đôi khi trả panel_number trùng lặp hoặc nhảy số (vd: 1, 2, 4).
-    # Orchestrator dùng panel_number - 1 làm index truy cập list nên số nhảy/trùng
+    # Orchestrator dùng panel_number - 1 làm index truy cập list nên số nhảy/trùng(đánh số lại)
     # sẽ gây IndexError hoặc ghi đè panel. Chuẩn hóa lại thành dãy liên tục 1..N.
     panels = sorted(result.get("panels", []), key=lambda p: p["panel_number"])
     for i, panel in enumerate(panels):
