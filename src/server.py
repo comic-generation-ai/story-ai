@@ -154,8 +154,10 @@ def generate_story_endpoint(request: GenerateStoryRequest):
 
 
     primary_model = Config.MODEL_NAME
-    fallback_model = "qwen3.7-max-2026-06-08"
-    model_to_use = primary_model
+    fallback_models = [m for m in ["qwen3.7-plus", "qwen3.7-max-2026-06-08"] if m != primary_model]
+    models_to_try = [primary_model] + fallback_models
+    model_index = 0
+    model_to_use = models_to_try[model_index]
 
     max_retries = 3
     attempt = 1
@@ -210,10 +212,11 @@ def generate_story_endpoint(request: GenerateStoryRequest):
             )
 
         except (openai.RateLimitError, openai.APIError) as e:
-            if model_to_use == primary_model and primary_model != fallback_model:
-                print(f"  Primary model ({primary_model}) failed with API/Rate Limit error: {e}")
-                print(f"  Switching to fallback model: {fallback_model}")
-                model_to_use = fallback_model
+            if model_index < len(models_to_try) - 1:
+                print(f"  Model ({model_to_use}) failed with API/Rate Limit error: {e}")
+                model_index += 1
+                model_to_use = models_to_try[model_index]
+                print(f"  Switching to fallback model: {model_to_use}")
                 continue
 
             # Extract retry-after from error metadata if available
@@ -237,10 +240,11 @@ def generate_story_endpoint(request: GenerateStoryRequest):
                 return _get_mock_fallback(request, f"Rate limited / API error after {max_retries} attempts: {e}")
 
         except Exception as e:
-            if model_to_use == primary_model and primary_model != fallback_model:
-                print(f"  Primary model ({primary_model}) failed with parse/validation error: {e}")
-                print(f"  Switching to fallback model: {fallback_model}")
-                model_to_use = fallback_model
+            if model_index < len(models_to_try) - 1:
+                print(f"  Model ({model_to_use}) failed with parse/validation error: {e}")
+                model_index += 1
+                model_to_use = models_to_try[model_index]
+                print(f"  Switching to fallback model: {model_to_use}")
                 continue
 
             print(f"  ERROR detail:\n{traceback.format_exc()}")

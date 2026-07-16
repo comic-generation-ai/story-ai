@@ -43,8 +43,24 @@ IMAGE PROMPT RULES:
 - Focus on exactly ONE main action or moment per panel. Do not include a sequence of actions.
 - Describe: scene composition, character appearance, lighting, key action, camera angle/shot type, and art style.
 - Leave emotional descriptions, dialogue, and plot narration for the 'dialogue' field (do NOT include them in the image prompt).
+- When a panel has 2 or more characters, ALWAYS anchor each character to an
+  explicit spatial position so the image model can separate their attributes
+  correctly. Format: "on the left, [character A description]; on the right,
+  [character B description]". For 3 characters use "left / center / right".
+  Bad: "a girl in red dress and a boy in blue armor talking"
+  Good: "on the left, a girl in red dress; on the right, a boy in blue armor, both facing each other"
+- When the same character appears in multiple panels, describe their key visual
+  identifiers (hair, clothing, distinguishing features) using the EXACT SAME
+  wording every time — do not paraphrase panel to panel. This keeps the
+  character's appearance consistent across the whole comic.
+  Bad: panel 1 "a girl with long black hair in a red ao dai"; panel 3 "young woman in a crimson traditional dress"
+  Good: panel 1 "a girl with long black hair in a red ao dai"; panel 3 "a girl with long black hair in a red ao dai, now smiling"
 - Do NOT include any Midjourney parameters (e.g., do NOT use --ar, --v, --style, etc.).
-- Example: "young Vietnamese woman in traditional clothing, walking along dirt path, thatched-roof house, golden hour, melancholic mood, wide shot, comic book style, vibrant colors, detailed line art"
+- Do NOT include art style descriptors (e.g. "comic book style", "anime style",
+  "watercolor", "vibrant colors") in the image_prompt. Focus purely on scene
+  content — style is applied separately by the rendering system based on the
+  selected ART STYLE.
+- Example: "young Vietnamese woman in traditional clothing, walking along dirt path, thatched-roof house, golden hour, melancholic mood, wide shot"
 
 CRITICAL: Generate exactly the requested number of panels, numbered 1 to N. Distribute panel types to create rhythm — avoid placing all dialogue panels consecutively."""
 
