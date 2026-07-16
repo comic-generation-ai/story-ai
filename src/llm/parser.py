@@ -2,15 +2,15 @@ import json
 import logging
 import re
 # pyrefly: ignore [missing-import]
-from pydantic import BaseModel, Field, field_validator
+from pydantic import BaseModel, Field, field_validator, model_validator
 from typing import List, Literal, Optional
 
 logger = logging.getLogger(__name__)
 
-# Prompt đã yêu cầu LLM viết dialogue ≤ 120 ký tự nhưng LLM không tuân thủ 100%.
-# Mức 150 là biên dự phòng: image-ai reject cứng caption_text > 500 ký tự
-# (CAPTION_MAX_LENGTH) nên phải chặn trước khi thoại rời story-ai.
 MAX_DIALOGUE_CHARS = 150
+
+NARRATOR_LABEL = "Người kể chuyện"
+FALLBACK_NARRATION_TEXT = "Câu chuyện tiếp diễn..."
 
 
 class PanelScriptModel(BaseModel):
@@ -30,6 +30,20 @@ class PanelScriptModel(BaseModel):
             )
             return value[: MAX_DIALOGUE_CHARS - 1].rstrip() + "…"
         return value
+
+    @model_validator(mode="after")
+    def _ensure_dialogue_present(self) -> "PanelScriptModel":
+        if not self.dialogue or not self.dialogue.strip():
+            logger.warning(
+                "panel_number=%s thiếu dialogue dù prompt đã bắt buộc — vá thành lời người dẫn truyện",
+                self.panel_number,
+            )
+            self.panel_type = "narration"
+            self.speaker = NARRATOR_LABEL
+            self.dialogue = FALLBACK_NARRATION_TEXT
+        elif not self.speaker or not self.speaker.strip():
+            self.speaker = NARRATOR_LABEL
+        return self
 
 
 class StoryResponseModel(BaseModel):
@@ -55,9 +69,6 @@ def parse_llm_json(raw_text: str) -> dict:
     validated = StoryResponseModel(**parsed_dict)
     result = validated.model_dump()
 
-    # LLM đôi khi trả panel_number trùng lặp hoặc nhảy số (vd: 1, 2, 4).
-    # Orchestrator dùng panel_number - 1 làm index truy cập list nên số nhảy/trùng(đánh số lại)
-    # sẽ gây IndexError hoặc ghi đè panel. Chuẩn hóa lại thành dãy liên tục 1..N.
     panels = sorted(result.get("panels", []), key=lambda p: p["panel_number"])
     for i, panel in enumerate(panels):
         panel["panel_number"] = i + 1

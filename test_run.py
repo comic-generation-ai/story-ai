@@ -11,7 +11,7 @@ def main():
     print("=== BẮT ĐẦU TEST TẠO TRUYỆN TRANH VỚI OPENROUTER ===")
     request = GenerateStoryRequest(
         job_id="test_tam_cam_01",
-        summary="Truyện cổ tích Tấm Cám - Tấm bị dì ghẻ chặt cây cau khi đang hái cau cúng cha",
+        summary="Nhân dịp giỗ cha, Tấm về thăm nhà. Mẹ kế lừa Tấm trèo lên cây cau để hái quả cúng giỗ, rồi lén chặt gốc cây khiến Tấm ngã xuống và qua đời. Sau đó, mẹ con Cám đưa Cám vào cung thay Tấm làm hoàng hậu. Linh hồn Tấm hóa thành chim Vàng Anh, mở đầu cho hành trình hóa thân và trở về đòi lại công lý.",
         num_panels=5,
         style="comic book style, vibrant colors",
         language="vi"
