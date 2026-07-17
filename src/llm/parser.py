@@ -19,6 +19,14 @@ class PanelScriptModel(BaseModel):
     image_prompt: str
     speaker: Optional[str] = None
     dialogue: Optional[str] = None
+    speaker_position: Optional[Literal["left", "center", "right"]] = "center"
+
+    @field_validator("speaker_position", mode="before")
+    @classmethod
+    def _normalize_position(cls, v):
+        if isinstance(v, str) and v.strip().lower() in ("left", "right", "center"):
+            return v.strip().lower()
+        return "center"
 
     @field_validator("dialogue")
     @classmethod

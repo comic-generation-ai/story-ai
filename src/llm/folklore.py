@@ -203,7 +203,7 @@ FOLKLORE_DATABASE = {
     },
     "sutich_banhchung_banhgiay": {
         "canonical_title": "Sự tích Bánh Chưng, Bánh Giầy",
-        "keywords": ["banh chung banh giay", "lang lieu", "nep", "nhan dau xanh", "la dong", "khoi"],
+        "keywords": ["banh chung banh giay", "lang lieu", "gao nep lam banh", "nhan dau xanh", "la dong goi banh"],
         "context": """
 - Bối cảnh: Thời Hùng Vương thứ sáu về già.
 - Nhân vật chính:
@@ -277,7 +277,7 @@ FOLKLORE_DATABASE = {
     },
     "coc_kien_troi": {
         "canonical_title": "Cóc kiện trời",
-        "keywords": ["coc kien troi", "ong", "cua", "gau", "cop", "thien loi", "ngoc hoang", "nghien rang"],
+        "keywords": ["coc kien troi", "con cua", "con ong", "con gau", "con cop", "thien loi", "ngoc hoang", "nghien rang"],
         "context": """
 - Bối cảnh: Trần gian gặp nạn đại hạn hán lâu ngày, vạn vật khô héo.
 - Nhân vật chính:
@@ -355,7 +355,7 @@ FOLKLORE_DATABASE = {
     },
     "tri_khon_cua_ta_day": {
         "canonical_title": "Trí khôn của ta đây",
-        "keywords": ["tri khon cua ta day", "cop", "trau", "bac nong dan", "rom dot", "bi chay xam"],
+        "keywords": ["tri khon cua ta day", "con cop", "con trau", "bac nong dan", "rom dot", "bi chay xam"],
         "context": """
 - Bối cảnh: Cánh đồng làng quê Việt Nam xưa.
 - Nhân vật chính:
@@ -394,7 +394,7 @@ FOLKLORE_DATABASE = {
     },
     "thay_boi_xem_voi": {
         "canonical_title": "Thầy bói xem voi",
-        "keywords": ["thay boi xem voi", "mu", "so voi", "con dia", "don xoc", "quat thoc", "cot dinh", "choi se cun"],
+        "keywords": ["thay boi xem voi", "thay boi mu", "so voi", "con dia", "don xoc", "quat thoc", "cot dinh", "choi se cun"],
         "context": """
 - Bối cảnh: Phiên chợ quê náo nhiệt.
 - Nhân vật chính:
@@ -432,7 +432,7 @@ FOLKLORE_DATABASE = {
     },
     "truyen_trang_lon": {
         "canonical_title": "Truyện Trạng Lợn",
-        "keywords": ["trang lon", "chung", "doan mo", "may man", "long dong duoi giac"],
+        "keywords": ["trang lon", "chang chung", "doan mo", "may man", "long dong duoi giac"],
         "context": """
 - Bối cảnh: Làng quê phong kiến Việt Nam xưa.
 - Nhân vật chính:
@@ -531,7 +531,7 @@ FOLKLORE_DATABASE = {
     },
     "co_be_quang_khan_do": {
         "canonical_title": "Cô bé quàng khăn đỏ",
-        "keywords": ["co be quang khan do", "khan do", "cho soi", "ba ngoai", "tho san", "nuot chung", "banh"],
+        "keywords": ["co be quang khan do", "khan do", "cho soi", "ba ngoai", "tho san", "nuot chung"],
         "context": """
 - Bối cảnh: Con đường xuyên rừng xanh âm u.
 - Nhân vật chính:
@@ -831,12 +831,17 @@ def get_folklore_context(summary: str) -> Optional[dict]:
     Returns the folklore details dictionary if matched, or None.
     """
     normalized_summary = normalize_text(summary)
-    
+
     for key, data in FOLKLORE_DATABASE.items():
-        # Check if any keyword matches
+        # Check if any keyword matches as a whole word/phrase — a plain substring
+        # check would let short keywords like "ong" match inside unrelated words
+        # such as "khong" (không), "trong", "xong", etc.
         for kw in data["keywords"]:
             normalized_kw = normalize_text(kw)
-            if normalized_kw in normalized_summary:
+            if not normalized_kw:
+                continue
+            pattern = r'(?<![a-z0-9])' + re.escape(normalized_kw) + r'(?![a-z0-9])'
+            if re.search(pattern, normalized_summary):
                 return data
-                
+
     return None

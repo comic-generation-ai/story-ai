@@ -3,7 +3,7 @@ import sys
 import time
 import traceback
 import re as _re
-from typing import List, Optional
+from typing import List, Literal, Optional
 # pyrefly: ignore [missing-import]
 from fastapi import FastAPI, HTTPException
 # pyrefly: ignore [missing-import]
@@ -70,6 +70,7 @@ class PanelScript(BaseModel):
     image_prompt: str
     speaker: Optional[str] = None
     dialogue: Optional[str] = None
+    speaker_position: Optional[Literal["left", "center", "right"]] = "center"
 
 class GenerateStoryResponse(BaseModel):
     job_id: str
@@ -112,6 +113,7 @@ def _get_mock_fallback(request: GenerateStoryRequest, error_msg: str) -> Generat
             image_prompt=img_prompt,
             speaker=speaker,
             dialogue=f"[Khung {i+1}] {summary_short}",
+            speaker_position="center",
         ))
 
     return GenerateStoryResponse(

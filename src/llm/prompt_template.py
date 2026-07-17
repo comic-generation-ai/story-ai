@@ -12,7 +12,8 @@ JSON schema:
       "panel_type": "action|dialogue|narration",
       "image_prompt": "Concise English image prompt: comma-separated tags/keywords, limit to 40-60 words (~180-220 characters). Focus on key visual elements only. No Midjourney-specific parameters.",
       "speaker": "Character name in Vietnamese speaking this panel, OR 'Người kể chuyện' if this panel is narration. NEVER null — every panel needs a speaker.",
-      "dialogue": "Text shown on this panel in Vietnamese — character speech bubble OR narrator caption. Maximum 120 characters. NEVER null or empty — see MANDATORY rule below."
+      "dialogue": "Text shown on this panel in Vietnamese — character speech bubble OR narrator caption. Maximum 120 characters. NEVER null or empty — see MANDATORY rule below.",
+      "speaker_position": "left | center | right — which side of the panel the speaking character (the one in 'speaker') stands at, matching the position used for them in image_prompt's SPATIAL POSITION. Use 'center' for narration or when the speaker is alone/centered in the frame."
     }
   ]
 }
