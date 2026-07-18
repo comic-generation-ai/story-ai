@@ -80,15 +80,14 @@ IMAGE PROMPT RULES:
   Bad: "a girl in red dress and a boy in blue armor talking"
   Good: "on the left, a girl in red dress; on the right, a boy in blue armor, both facing each other"
 - CHARACTER CONSISTENCY (critical): the first time a character appears, define a
-  short fixed visual tag for them (hair, clothing, distinguishing features) and
-  reuse that EXACT SAME wording, word-for-word, in every other panel that
+  short fixed visual tag for them. YOU MUST EXPLICITLY INCLUDE GENDER, AGE, AND CULTURAL/ETHNIC DESCRIPTORS (e.g. "muscular young Asian man", "Vietnamese elderly woman", "young girl in ancient attire"). Never assume the image model knows a character's gender or origin from their name. Reuse that EXACT SAME wording, word-for-word, in every other panel that
   character appears in — whether they are alone or with others, speaking or
   silent. Never paraphrase, shorten, or reword it panel to panel; only append
   new action/expression after it. Treat this tag as a fixed label copy-pasted
   across panels, not a fresh description each time. Keep each tag itself short
-  (5-8 words) so it still leaves room for other characters in group panels.
-  Bad: panel 1 "a girl with long black hair in a red ao dai"; panel 3 "young woman in a crimson traditional dress"
-  Good: panel 1 "a girl with long black hair in a red ao dai"; panel 3 "a girl with long black hair in a red ao dai, now smiling"
+  (6-10 words) so it still leaves room for other characters in group panels.
+  Bad: panel 1 "a girl with long black hair"; panel 3 "young woman in a crimson traditional dress"
+  Good: panel 1 "young Vietnamese girl with long black hair in red ao dai"; panel 3 "young Vietnamese girl with long black hair in red ao dai, now smiling"
 - Do NOT include any Midjourney parameters (e.g., do NOT use --ar, --v, --style, etc.).
 - Do NOT include art style descriptors (e.g. "comic book style", "anime style",
   "watercolor", "vibrant colors") in the image_prompt. Focus purely on scene

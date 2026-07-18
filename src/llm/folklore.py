@@ -26,11 +26,11 @@ FOLKLORE_DATABASE = {
         "context": """
 - Bối cảnh: Việt Nam thời cổ đại.
 - Nhân vật chính:
-  + Thạch Sanh: Chàng tiều phu nghèo khổ nhưng khoẻ mạnh, thật thà, tốt bụng, dũng cảm và có võ nghệ cao cường. Chàng dùng rìu đá (búa thần), cung tên vàng (cung thần), niêu cơm thần (luôn đầy cơm) và đàn thần (tiếng đàn cảm hoá quân sĩ, giải oan).
-  + Lý Thông: Người anh kết nghĩa của Thạch Sanh. Tính cách quỷ quyệt, xảo quyệt, tham lam và tàn nhẫn, luôn tìm cách cướp công của Thạch Sanh.
+  + Thạch Sanh: Chàng tiều phu châu Á trẻ tuổi, nghèo khổ nhưng khoẻ mạnh, cơ bắp vạm vỡ, thật thà, dũng cảm. Chàng dùng rìu đá (búa thần), cung tên vàng.
+  + Lý Thông: Chàng trai châu Á, người anh kết nghĩa của Thạch Sanh. Tính cách quỷ quyệt, xảo quyệt, tham lam và tàn nhẫn, luôn tìm cách cướp công.
   + Chằn Tinh: Con quái vật nửa người nửa thú (ogre/monster) hung ác tàn bạo chuyên ăn thịt người.
   + Đại Bàng Tinh: Con quái vật chim khổng lồ bắt cóc Công chúa Quỳnh Nga.
-  + Công chúa Quỳnh Nga: Công chúa hiền dịu, bị Đại Bàng bắt đi và được Thạch Sanh giải cứu.
+  + Công chúa Quỳnh Nga: Công chúa châu Á trẻ tuổi, hiền dịu, bị Đại Bàng bắt đi và được Thạch Sanh giải cứu.
 - Cốt truyện truyền thống:
   1. Thạch Sanh kết nghĩa anh em với Lý Thông, bị Lý Thông lừa đi canh miếu thờ để thế mạng cho hắn trước Chằn Tinh. Thạch Sanh chiến đấu dũng cảm, diệt Chằn Tinh, lấy được bộ cung tên vàng. Lý Thông cướp công.
   2. Đại Bàng Tinh bắt công chúa. Thạch Sanh bắn thương đại bàng, tìm đến hang của nó, xuống hang cứu công chúa lên. Lý Thông ở trên lấp cửa hang để hại Thạch Sanh và cướp công chúa về hoàng cung đòi công.
@@ -46,7 +46,7 @@ FOLKLORE_DATABASE = {
     },
     "tam_cam": {
         "canonical_title": "Tấm Cám",
-        "keywords": ["tam cam", "di ghe", "ca bong", "chim vang anh", "cay xoan dao", "khung cui", "qua thi"],
+        "keywords": ["tam cam", "tam va cam", "me con cam", "di ghe", "ca bong", "chim vang anh", "cay xoan dao", "khung cui", "qua thi"],
         "context": """
 - Bối cảnh: Làng quê Việt Nam cổ xưa.
 - Nhân vật chính:
@@ -90,10 +90,10 @@ FOLKLORE_DATABASE = {
         "context": """
 - Bối cảnh: Đời Hùng Vương thứ mười tám.
 - Nhân vật chính:
-  + Sơn Tinh: Thần Núi Ba Vì. Người hiền hòa, có tài vẫy tay nổi cồn bãi, dâng đồi núi cao chống lại dòng nước. Đại diện cho sức mạnh chế ngự thiên tai của người Việt cổ.
-  + Thủy Tinh: Thần Nước. Người kiêu ngạo, nóng nảy, có tài gọi gió, làm mưa, dâng nước lụt dìm chết mọi thứ.
-  + Hùng Vương XVIII: Vua nước Văn Lang, muốn tìm rể hiền cho con gái.
-  + Mỵ Nương: Công chúa xinh đẹp nết na.
+  + Sơn Tinh: Thần Núi Ba Vì. Người hiền hòa, là một chàng trai châu Á trẻ tuổi, vạm vỡ, mặc trang phục cổ đại Việt Nam. Có tài vẫy tay nổi cồn bãi, dâng đồi núi cao chống lại dòng nước.
+  + Thủy Tinh: Thần Nước. Là một chàng trai châu Á trẻ tuổi, cơ bắp cuồn cuộn, hung dữ, mặc trang phục cổ đại thủy thần. Người kiêu ngạo, nóng nảy, có tài gọi gió, làm mưa.
+  + Hùng Vương XVIII: Vua nước Văn Lang, một vị vua già uy nghi.
+  + Mỵ Nương: Công chúa châu Á trẻ tuổi, xinh đẹp nết na, mặc trang phục công chúa Âu Lạc.
 - Cốt truyện truyền thống:
   1. Hùng Vương kén rể, Sơn Tinh và Thủy Tinh cùng đến cầu hôn. Cả hai đều tài giỏi ngang nhau.
   2. Vua thách cưới bằng sính lễ đặc biệt: "Một trăm ván cơm nếp, một trăm tiệp bánh chưng, voi chín ngà, gà chín cựa, ngựa chín hồng mao, mỗi thứ một đôi", ai đem đến trước thì được cưới Mỵ Nương.
@@ -828,20 +828,37 @@ FOLKLORE_DATABASE = {
 def get_folklore_context(summary: str) -> Optional[dict]:
     """
     Checks if the user request summary matches any popular Vietnamese folktale.
+    Uses a scoring system based on keyword position (primary vs secondary).
     Returns the folklore details dictionary if matched, or None.
     """
     normalized_summary = normalize_text(summary)
+    
+    best_match = None
+    max_score = 0
 
     for key, data in FOLKLORE_DATABASE.items():
-        # Check if any keyword matches as a whole word/phrase — a plain substring
-        # check would let short keywords like "ong" match inside unrelated words
-        # such as "khong" (không), "trong", "xong", etc.
-        for kw in data["keywords"]:
+        score = 0
+        for i, kw in enumerate(data["keywords"]):
             normalized_kw = normalize_text(kw)
             if not normalized_kw:
                 continue
             pattern = r'(?<![a-z0-9])' + re.escape(normalized_kw) + r'(?![a-z0-9])'
-            if re.search(pattern, normalized_summary):
-                return data
+            matches = re.findall(pattern, normalized_summary)
+            if matches:
+                # Trọng số: 2 từ khóa đầu tiên (thường là tên truyện/nhân vật chính) được 3 điểm.
+                # Các từ khóa phụ (chi tiết, đồ vật) được 1 điểm.
+                weight = 3 if i < 2 else 1
+                score += len(matches) * weight
+                
+        # Nếu điểm cao hơn max_score hiện tại, cập nhật best_match
+        if score > max_score:
+            max_score = score
+            best_match = data
+
+    # Ngưỡng (Threshold): Phải có ít nhất 3 điểm (Tức là phải có 1 từ khóa chính, 
+    # hoặc có ít nhất 3 từ khóa phụ) thì mới kết luận là truyện đó.
+    # Tránh trường hợp chỉ khớp 1 từ khóa phụ chung chung như "xe ngựa", "hoàng tử".
+    if max_score >= 3:
+        return best_match
 
     return None
