@@ -156,7 +156,7 @@ def generate_story_endpoint(request: GenerateStoryRequest):
 
 
     primary_model = Config.MODEL_NAME
-    fallback_models = [m for m in ["qwen3.7-plus", "qwen3.7-max-2026-06-08"] if m != primary_model]
+    fallback_models = [m for m in ["qwen3.6-flash", "qwen3.7-max-2026-06-08"] if m != primary_model]
     models_to_try = [primary_model] + fallback_models
     model_index = 0
     model_to_use = models_to_try[model_index]
