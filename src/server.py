@@ -261,7 +261,7 @@ def health_endpoint():
         versions={
             "http_server": "1.2.0",
             "python": sys.version.split()[0],
-            "llm_provider": "OpenRouter"
+            "llm_provider": "DashScope"
         }
     )
 
