@@ -123,11 +123,23 @@ def _get_mock_fallback(request: GenerateStoryRequest, error_msg: str) -> Generat
         is_fallback=True,
     )
 
+CANCELLED_JOBS: set[str] = set()
+
+@app.post("/cancel-story/{job_id}")
+def cancel_story_endpoint(job_id: str):
+    print(f"[{time.strftime('%Y-%m-%d %H:%M:%S')}] CancelStory received for job_id={job_id}")
+    CANCELLED_JOBS.add(job_id)
+    return {"job_id": job_id, "status": "CANCELLED"}
+
 # --- Routes ---
 @app.post("/generate-story", response_model=GenerateStoryResponse)
 def generate_story_endpoint(request: GenerateStoryRequest):
     print(f"\n[{time.strftime('%Y-%m-%d %H:%M:%S')}] GenerateStory | job_id={request.job_id} | panels={request.num_panels}")
     print(f"  Summary: {request.summary}")
+
+    if request.job_id in CANCELLED_JOBS:
+        print(f"  Job {request.job_id} was cancelled before execution.")
+        raise HTTPException(status_code=499, detail="Story generation cancelled by user")
 
     if not request.summary.strip():
         return _get_mock_fallback(request, "Request summary is empty.")
