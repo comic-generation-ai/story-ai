@@ -31,7 +31,6 @@ from src.llm import prompt_template, parser, folklore
 
 Config.validate()
 
-# Initialize OpenAI client pointing to OpenRouter if API key exists
 openai_client = None
 if Config.API_KEY:
     # verify=False bypasses SSL cert check (needed on Windows with corporate proxy / self-signed CA)
@@ -177,7 +176,7 @@ def generate_story_endpoint(request: GenerateStoryRequest):
     attempt = 1
     while attempt <= max_retries:
         try:
-            print(f"  Calling OpenRouter API ({model_to_use}), attempt {attempt}/{max_retries}...")
+            print(f"  Calling the DashScope API ({model_to_use}), attempt {attempt}/{max_retries}...")
             start_time = time.time()
 
             completion = openai_client.chat.completions.create(

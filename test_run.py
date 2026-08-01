@@ -19,7 +19,7 @@ def main():
 
     print(f"Job ID: {request.job_id}")
     print(f"Summary: {request.summary}")
-    print("Đang gọi OpenRouter API...")
+    print("Đang gọi DashScope API...")
 
     response = generate_story_endpoint(request)
 
