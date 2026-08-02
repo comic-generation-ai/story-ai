@@ -13,13 +13,20 @@ NARRATOR_LABEL = "Người kể chuyện"
 FALLBACK_NARRATION_TEXT = "Câu chuyện tiếp diễn..."
 
 
+class CharacterDetailModel(BaseModel):
+    name: str
+    visual_tag: str
+
+
 class PanelScriptModel(BaseModel):
     panel_number: int
     panel_type: Optional[Literal["action", "dialogue", "narration"]] = "dialogue"
     image_prompt: str
+    scene_description: Optional[str] = ""
     speaker: Optional[str] = None
     dialogue: Optional[str] = None
     speaker_position: Optional[Literal["left", "center", "right"]] = "center"
+    character_ids: List[str] = Field(default_factory=list)
 
     @field_validator("speaker_position", mode="before")
     @classmethod
@@ -56,6 +63,7 @@ class PanelScriptModel(BaseModel):
 
 class StoryResponseModel(BaseModel):
     story_title: str
+    characters: dict[str, CharacterDetailModel] = Field(default_factory=dict)
     panels: List[PanelScriptModel]
 
 

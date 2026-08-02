@@ -6,17 +6,32 @@ You MUST respond strictly with a single JSON object. Do NOT add any preamble, co
 JSON schema:
 {
   "story_title": "Short, catchy Vietnamese title",
+  "characters": {
+    "char_001": {
+      "name": "Character name in Vietnamese (e.g. Thạch Sanh)",
+      "visual_tag": "Concise English visual descriptor tag (e.g. young muscular Vietnamese man, short black hair, simple peasant clothing)"
+    }
+  },
   "panels": [
     {
       "panel_number": 1,
       "panel_type": "action|dialogue|narration",
       "image_prompt": "Concise English image prompt: comma-separated tags/keywords, limit to 40-60 words (~180-220 characters). Focus on key visual elements only. No Midjourney-specific parameters.",
+      "scene_description": "Concise English description of the scene's setting and action (e.g. dense jungle at dusk, protagonist searching for the mystical axe).",
       "speaker": "Character name in Vietnamese speaking this panel, OR 'Người kể chuyện' if this panel is narration. NEVER null — every panel needs a speaker.",
       "dialogue": "Text shown on this panel in Vietnamese — character speech bubble OR narrator caption. Maximum 120 characters. NEVER null or empty — see MANDATORY rule below.",
-      "speaker_position": "left | center | right — which side of the panel the speaking character (the one in 'speaker') stands at, matching the position used for them in image_prompt's SPATIAL POSITION. Use 'center' for narration or when the speaker is alone/centered in the frame."
+      "speaker_position": "left | center | right — which side of the panel the speaking character (the one in 'speaker') stands at, matching the position used for them in image_prompt's SPATIAL POSITION. Use 'center' for narration or when the speaker is alone/centered in the frame.",
+      "character_ids": ["char_001"]
     }
   ]
 }
+
+CHARACTER BIBLE AND CHARACTER_IDS RULES:
+- You MUST declare all key characters in the "characters" map. Assign unique character IDs: "char_001", "char_002", etc.
+- Each character in "characters" must have "name" (Vietnamese) and a concise "visual_tag" in English.
+- For each panel, "character_ids" MUST be an array containing the exact character IDs of all characters physically present in that panel frame.
+- Every panel MUST include "scene_description" describing the environment and action in English.
+- Reuse the EXACT visual_tag string from "characters" in the panel's "image_prompt" whenever that character appears.
 
 PANEL TYPES:
 - "narration": No character speech. Only a narrator caption box setting atmosphere, time, or bridging scenes.
