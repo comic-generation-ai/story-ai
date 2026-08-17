@@ -106,8 +106,6 @@ class GenerateStoryResponse(BaseModel):
     story_title: str
     characters: dict[str, CharacterDetail] = Field(default_factory=dict)
     panels: List[PanelScript]
-    # True khi kết quả là mock fallback (LLM lỗi / thiếu API key) — orchestrator
-    # dựa vào cờ này để quyết định fail sớm thay vì đốt GPU sinh ảnh từ prompt mock.
     is_fallback: bool = False
 
 class HealthResponse(BaseModel):

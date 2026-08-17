@@ -46,7 +46,7 @@ MANDATORY — EVERY PANEL NEEDS TEXT, NO EXCEPTIONS:
 - If a panel is a pure action/establishing beat and no character line fits
   naturally, DO NOT leave dialogue empty: instead write a short narrator
   caption for that panel (max 120 characters, following RULES FOR NARRATION
-  CAPTIONS below) and set "speaker" to "Narrator" (or "Người kể chuyện" if dialogue language is Vietnamese).
+  CAPTIONS below) and  set "speaker" to "Narrator" (or "Người kể chuyện" if dialogue language is Vietnamese).
 - Never output "dialogue": null, "dialogue": "", or omit the field.
 
 RULES FOR NATURAL DIALOGUE:
@@ -87,7 +87,9 @@ IMAGE PROMPT RULES:
   Bad: "a girl in red dress and a boy in blue armor talking"
   Good: "on the left, a girl in red jacket; on the right, a boy in blue armor, both facing each other"
 - CHARACTER CONSISTENCY (critical): the first time a character appears, define a
-  short fixed visual tag for them. YOU MUST EXPLICITLY INCLUDE GENDER, AGE, AND SETTING-APPROPRIATE DESCRIPTORS (e.g. "young female knight in steel armor", "middle-aged cyborg detective in leather coat", "young boy in red hoodie"). Never assume the image model knows a character's appearance from their name alone. Reuse that EXACT SAME wording, word-for-word, in every other panel that
+  short fixed visual tag for them. YOU MUST EXPLICITLY INCLUDE GENDER, AGE, AND SETTING-APPROPRIATE DESCRIPTORS (e.g. "young female knight in steel armor", "middle-aged cyborg detective in leather coat", "young boy in red hoodie"). 
+  Never assume the image model knows a character's appearance from their name alone. 
+  Reuse that EXACT SAME wording, word-for-word, in every other panel that
   character appears in — whether they are alone or with others, speaking or
   silent. Never paraphrase, shorten, or reword it panel to panel; only append
   new action/expression after it. Treat this tag as a fixed label copy-pasted
